@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8"/>
+<title>Robot</title>
+</head>
+<body>
+
+<button id = "start-button">Start</button>
+<button id = "speed-button">Increase speed</button>
+<button id = "stop-button">Stop</button>
+<div id = "info"></div>
+
+<img src = "animation.gif" style = "position:absolute; left: 0px; top: 80px"  width="160" height="191" alt="robot">
+
+<script>
+var movePixels = 10;
+var delayMs = 50;
+var robotTimer = null;
+
+
+function robotWalk() {
+ var img = document.getElementsByTagName("img")[0];
+ var currentLeft = parseInt(img.style.left);
+ img.style.left = (currentLeft + movePixels) + "px";
+ if (currentLeft > (window.innerWidth - img.width)) {
+ img.style.left = "0px";
+} 
+}
+
+function startRobotWalk(){
+robotTimer = window.setInterval(robotWalk, delayMs);
+}
+
+function onStartClick() {
+    startRobotWalk();
+    startButton.setAttribute("disabled", "disabled");
+    stopButton.removeAttribute("disabled");
+    speedButton.removeAttribute("disabled");
+}
+var startButton = document.getElementById('start-button');
+startButton.addEventListener('click', onStartClick);
+
+function onStopClick() {
+   window.clearInterval(robotTimer);
+   stopButton.setAttribute("disabled", "disabled");  
+   speedButton.setAttribute("disabled", "disabled");  
+   startButton.removeAttribute("disabled");
+}
+var stopButton = document.getElementById("stop-button");
+stopButton.addEventListener("click", onStopClick);
+stopButton.setAttribute("disabled", "disabled");
+
+function onSpeedClick() {
+    movePixels += 5;
+    var speed = movePixels * (1000/50);
+    document.getElementById("info").innerHTML = "Your current robot speed is: " + speed + "px/second";
+}
+var speedButton = document.getElementById("speed-button");
+speedButton.addEventListener("click", onSpeedClick);
+speedButton.setAttribute("disabled", "disabled");
+
+	</script>
+ </body>
+</html>
